@@ -1,4 +1,3 @@
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +6,7 @@ public class GameBoard extends JPanel {
 
     public static final int BOARD_LENGTH = 8;
 
-    private ArrayList<ArrayList<Square>> boardData;
+    private final ArrayList<ArrayList<Square>> boardData;
     public static final int PLAYER_NONE = 0;
     public static final int PLAYER_BLUE = 1;
     public static final int PLAYER_RED = 2;
@@ -27,16 +26,13 @@ public class GameBoard extends JPanel {
     int secondClickRow;
     int secondClickColumn;
 
-    protected void highLightPiece(Graphics g) {
-        g.setColor(Color.GREEN);
-    }
-
     Square firstClick = null;
     Square secondClick = null;
     // Square thirdClick = null;
     Square redDeadPiece = null;
     Square blueDeadPiece = null;
     Square isSelected = null;
+    Square findPiece = null;
     boolean isRedTurn = false;
 
     public GameBoard(int x, int y, int width, int height) {
@@ -87,7 +83,7 @@ public class GameBoard extends JPanel {
                             }
                         }
                         else {
-                            if (firstClick.isValidSquare() && firstClick.isBluePlayer() && !firstClick.isEmptySquare()) {
+                            if (firstClick.isBluePlayer() && firstClick.isValidSquare() && !firstClick.isEmptySquare()) {
                                 isSelected.setPlayer(PLAYER_BLUE_SELECTED, firstClickRow, firstClickColumn);
                             }
                             else if(firstClick.isEmptySquare() || !firstClick.isValidSquare()) {
@@ -97,55 +93,102 @@ public class GameBoard extends JPanel {
                             }
                         }
                     }
-                    else if (firstClick != null) {
+                    else{
                         secondClick = finalSquare;
                         secondClickRow = finalRow;
                         secondClickColumn = finalColumn;
-                    }
-                    while (firstClick != null && secondClick != null && bluePiecesLeft > 0 && redPiecesLeft > 0) {
+                        // If user presses on twice on the same color/player.
+                        if((firstClick.isRedSelectedPlayer() && (secondClick.isRedPlayer() || secondClick.isRedSelectedPlayer())) || (firstClick.isBlueSelectedPlayer() &&
+                                (secondClick.isBluePlayer() || secondClick.isBlueSelectedPlayer()))){
+                            if(firstClick.isRedSelectedPlayer()) firstClick.setPlayer(PLAYER_RED,firstClickRow,secondClickRow);
+                            else if (firstClick.isBlueSelectedPlayer()) firstClick.setPlayer(PLAYER_BLUE,firstClickRow,secondClickRow);
+                        }
+                    }       // If both user clicks are not empty.
+                    if (firstClick != null && secondClick != null && bluePiecesLeft > 0 && redPiecesLeft > 0) {
                         boolean isRedFirstClickValid = isRedTurn && (firstClick.isRedPlayer() || firstClick.isRedSelectedPlayer()) ;
                         boolean isBlueFirstClickValid = !isRedTurn && (firstClick.isBluePlayer() || firstClick.isBlueSelectedPlayer());
+                        redDeadPiece = firstClick;
+                        blueDeadPiece = firstClick;
+                           // If both user clicks are valid.
                         if ((isRedFirstClickValid || isBlueFirstClickValid) && secondClick.isValidSquare() && secondClick.isEmptySquare()) {
+                            // If user moves player once
                             if (Math.abs(secondClickColumn - firstClickColumn) == 1 && Math.abs(secondClickRow - firstClickRow) == 1) {
-                                if (isRedTurn && (secondClickRow - firstClickRow) == 1) {
+                                if (isRedTurn && (secondClickRow - firstClickRow) == 1) { // Red's turn
+                                    isRedTurn = !isRedTurn;
                                     firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                     secondClick.setPlayer(PLAYER_RED, secondClickRow, secondClickColumn);
+                                } else if (!isRedTurn && (secondClickRow - firstClickRow) == -1) {  // Blue's turn
                                     isRedTurn = !isRedTurn;
-                                } else if (!isRedTurn && (secondClickRow - firstClickRow) == -1) {
                                     firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                     secondClick.setPlayer(PLAYER_BLUE, secondClickRow, secondClickColumn);
-                                    isRedTurn = !isRedTurn;
                                 }
+                                // If eating another player
                             } else if (Math.abs(secondClickColumn - firstClickColumn) == 2 && Math.abs(secondClickRow - firstClickRow) == 2) {
-                                if (secondClickRow - firstClickRow == 2) {
-                                    if (isRedTurn) {
-                                        if (secondClickColumn - firstClickColumn == 2) {  //eating right piece
+                                if (secondClickRow - firstClickRow == 2) {                      //Red turn
+//                                    if (secondClickColumn - firstClickColumn == 2) {
+                                        findPiece = new Square((firstClickRow + 1), (firstClickColumn + 1));//eating right piece
+//                                        if ((findPiece.PlayerColor((firstClickRow + 1), (firstClickColumn + 1))).isBluePlayer())
+//                                        {
+                                            isRedTurn = !isRedTurn;
                                             firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                             secondClick.setPlayer(PLAYER_RED, secondClickRow, secondClickColumn);
                                             blueDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow + 1), (firstClickColumn + 1));
                                             bluePiecesLeft--;
+                                            System.out.println(blueDeadPiece.isEmptySquare());
+//                                        } else {
+//                                            firstClick.setPlayer(PLAYER_RED, firstClickRow, firstClickColumn);
+//                                            secondClick.setPlayer(PLAYER_NONE, secondClickRow, secondClickColumn);
+//                                        }
+                                    }
+                                    else if (secondClickColumn - firstClickColumn == -2) {
+                                        findPiece = new Square((firstClickRow + 1), (firstClickColumn - 1));
+//                                        if ((findPiece.PlayerColor((firstClickRow + 1), (firstClickColumn - 1))).isBluePlayer()) {   //eating left piece
                                             isRedTurn = !isRedTurn;
-                                        } else if (isRedTurn && secondClickRow - firstClickRow == -2) { //eating left piece
                                             firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
-                                            secondClick.setPlayer(PLAYER_RED, secondClickRow, secondClickColumn);
+                                            secondClick.setPlayer(PLAYER_BLUE, secondClickRow, secondClickColumn);
                                             blueDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow + 1), (firstClickColumn - 1));
                                             bluePiecesLeft--;
+//                                        }
+//                                        else {
+//                                            firstClick.setPlayer(PLAYER_RED,firstClickRow,firstClickColumn);
+//                                            secondClick.setPlayer(PLAYER_NONE,secondClickRow,secondClickColumn);
+//                                        }
+                                    }
+//                                }
+                                else{                           //Blue turn
+                                    if (secondClickColumn - firstClickColumn == 2) {  //eating right piece
+                                        findPiece = new Square((firstClickRow - 1), (firstClickColumn + 1));
+//                                        if ((findPiece.PlayerColor((firstClickRow - 1), (firstClickColumn + 1))).isRedPlayer()) {
                                             isRedTurn = !isRedTurn;
-                                        }
-                                    } else if(!isRedTurn){
-                                        if (secondClickColumn - firstClickColumn == 2) { //eating right piece
                                             firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                             secondClick.setPlayer(PLAYER_BLUE, secondClickRow, secondClickColumn);
-                                            redDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow + 1), (firstClickColumn + 1));
+                                            redDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow - 1), (firstClickColumn + 1));
                                             redPiecesLeft--;
+//                                        }
+//                                        else{
+//                                            firstClick.setPlayer(PLAYER_BLUE,firstClickRow,firstClickColumn);
+//                                            secondClick.setPlayer(PLAYER_NONE,secondClickRow,secondClickColumn);
+//                                        }
+                                    }
+
+
+
+
+                                    //before commit
+                                    else if (secondClickRow - firstClickRow == - 2) { //eating left piece
+                                        findPiece = new Square((firstClickRow - 1), (firstClickColumn - 1));
+//                                        if ((findPiece.PlayerColor((firstClickRow - 1), (firstClickColumn - 1))).isRedPlayer()) {
                                             isRedTurn = !isRedTurn;
-                                        } else if (isRedTurn && secondClickRow - firstClickRow == - 2) { //eating left piece
                                             firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                             secondClick.setPlayer(PLAYER_BLUE, secondClickRow, secondClickColumn);
-                                            redDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow + 1), (firstClickColumn - 1));
+                                            redDeadPiece.setPlayer(PLAYER_DEAD, (firstClickRow - 1), (firstClickColumn - 1));
                                             redPiecesLeft--;
-                                            isRedTurn = !isRedTurn;
-                                        }
+
+//                                        }
+//                                        else {
+//                                            firstClick.setPlayer(PLAYER_BLUE,firstClickRow,firstClickColumn);
+//                                            secondClick.setPlayer(PLAYER_NONE,secondClickRow,secondClickColumn);
+//                                        }
                                     }
                                 }
 
@@ -156,18 +199,16 @@ public class GameBoard extends JPanel {
                         else if(isRedFirstClickValid && (!secondClick.isValidSquare() || secondClick.isEmptySquare() || secondClick.isBluePlayer()))
                             firstClick.setPlayer(PLAYER_RED,firstClickRow,firstClickColumn);
 
-//                        else if((!firstClick.isValidSquare() || firstClick.isEmptySquare()) || (!secondClick.isValidSquare() || secondClick.isEmptySquare()))
-//                            isRedTurn = !isRedTurn;
-
                         firstClick = null;
                         secondClick = null;
                         blueDeadPiece = null;
                         redDeadPiece = null;
-                        break;
+
                     }
 
                     if(redPiecesLeft < 1) System.out.println("BLUE TEAM WINNNSSS");
                     else if (bluePiecesLeft < 1) System.out.println("RED TEAM WINNNSSS");
+                    repaint();
 
                 });
 
