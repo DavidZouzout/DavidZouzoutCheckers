@@ -6,6 +6,7 @@ public class Square extends JButton {
     private int player;
     private boolean isKing;
     private int x;
+    private int y;
 
 
     public Square (Color color, int player, boolean isKing) {
@@ -16,12 +17,24 @@ public class Square extends JButton {
 
     }
 
+    public Square(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.color = this.color;
+    }
+
     public Square setPlayer(int player,int x,int y) {
         this.player = player;
         return this;
     }
     public Square findPlayer(int x,int y) {
         return this;
+    }
+public Square PlayerColor(int x ,int y){
+        return new Square(x,y);
+}
+    public int getPlayer() {
+        return player;
     }
 
     protected void paintComponent(Graphics g) {
