@@ -9,32 +9,57 @@ public class Square extends JButton {
     private int y;
 
 
-    public Square (Color color, int player, boolean isKing) {
+    public Square (Color color, int player, int x, int y, boolean isKing) {
         this.color = color;
         this.player = player;
         this.isKing = isKing;
-
-
-    }
-
-    public Square(int x, int y) {
         this.x = x;
         this.y = y;
-        this.color = this.color;
+        GameBoard.allPieces.add(this);
     }
 
-    public Square setPlayer(int player,int x,int y) {
+    public static Square getPlayerByIndex(int x, int y){
+        for (Square s:GameBoard.allPieces) {
+            if (s.getX() == x && s.getY() == y){
+                return s;
+            }
+        }
+        return null;
+    }
+
+
+//    public Square(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//        this.color = this.color;
+//    }
+
+    public Square setPlayer(int player,int height,int width) {
+        // i think you should make a different method
+        // public player getPieceByIndex(int i, int j){ returns player on box[i][j] and set him to null or something}
+        // its hard to understand your code so i can't figure it out...
+        this.x = height;
+        this.y = width;
         this.player = player;
         return this;
     }
-    public Square findPlayer(int x,int y) {
-        return this;
+//    public player getPieceByIndex(int i, int j){
+//        return
+//    }
+    public int findPlayerAt(int x,int y) {
+        if (this.player == GameBoard.PLAYER_RED) return GameBoard.PLAYER_RED;
+        else if (this.player == GameBoard.PLAYER_BLUE) return GameBoard.PLAYER_BLUE;
+        else return GameBoard.PLAYER_NONE;
     }
-public Square PlayerColor(int x ,int y){
-        return new Square(x,y);
-}
-    public int getPlayer() {
-        return player;
+    public Square getPlayer(int x, int y) {
+//        for (Square s:) {
+//
+//        }
+        if(this.player == GameBoard.PLAYER_BLUE) return this;
+        else if(this.player == GameBoard.PLAYER_RED) return this;
+        else if(this.player == GameBoard.PLAYER_BLUE) return this;
+        else return null;
+
     }
 
     protected void paintComponent(Graphics g) {
@@ -44,7 +69,6 @@ public Square PlayerColor(int x ,int y){
                 this.getWidth(), this.getHeight());
         switch (this.player) {
             case GameBoard.PLAYER_NONE:
-            case GameBoard.PLAYER_DEAD:
                 //do nothing
                 break;
             case GameBoard.PLAYER_RED:
@@ -109,7 +133,7 @@ public Square PlayerColor(int x ,int y){
     }
     public boolean isWrongPlayerSelected(){ return this.player == GameBoard.WRONG_PLAYER_SELECTED;}
     public boolean isEmptySquare(){
-        return this.player == GameBoard.PLAYER_NONE || this.player == GameBoard.PLAYER_DEAD;
+        return this.player == GameBoard.PLAYER_NONE;
     }
     public boolean isValidSquare(){
         return this.color == Color.BLACK;
