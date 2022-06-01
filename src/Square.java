@@ -15,18 +15,7 @@ public class Square extends JButton {
         this.isKing = isKing;
         this.x = x;
         this.y = y;
-        GameBoard.allPieces.add(this);
     }
-
-    public static Square getPlayerByIndex(int x, int y){
-        for (Square s:GameBoard.allPieces) {
-            if (s.getX() == x && s.getY() == y){
-                return s;
-            }
-        }
-        return null;
-    }
-
 
 //    public Square(int x, int y) {
 //        this.x = x;

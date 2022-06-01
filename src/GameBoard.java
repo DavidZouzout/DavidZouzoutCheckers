@@ -7,7 +7,6 @@ public class GameBoard extends JPanel {
     public static final int BOARD_LENGTH = 8;
 
     private final static ArrayList<ArrayList<Square>> boardData = new ArrayList<>();
-    public final static ArrayList<Square> allPieces = new ArrayList<>();
     public static final int PLAYER_NONE = 0;
     public static final int PLAYER_BLUE = 1;
     public static final int PLAYER_RED = 2;
@@ -55,10 +54,10 @@ public class GameBoard extends JPanel {
                 }
                 Square square;
                 if (black) {
-                    square = new Square(Color.BLACK, player, row,column, false);
+                    square = new Square(Color.BLACK, player, x,y, false);
                 }
                 else {
-                    square = new Square(Color.WHITE, player, row,column,false);
+                    square = new Square(Color.WHITE, player, x,y,false);
                 }
                 int finalRow = row;
                 int finalColumn = column;
@@ -159,8 +158,7 @@ public class GameBoard extends JPanel {
                                              isRedTurn = !isRedTurn;
                                              firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                              secondClick.setPlayer(PLAYER_RED, secondClickRow, secondClickColumn);
-                                             blueDeadPiece = Square.getPlayerByIndex(firstClickRow + 1, firstClickColumn + 1);
-                                             blueDeadPiece.setPlayer(PLAYER_NONE, 1, 1);
+                                             blueDeadPiece = new Square(Color.black,PLAYER_NONE,  (firstClickRow + 1), (firstClickColumn + 1),false);
                                              bluePiecesLeft--;
 //                                         }
 //                                         else System.out.println("hello world");
@@ -170,9 +168,10 @@ public class GameBoard extends JPanel {
 //                                        finalFindPiece.setPlayer(PLAYER_NONE,(firstClickRow - 1), (firstClickColumn + 1));
 //                                        if ((findPiece.PlayerColor((firstClickRow - 1), (firstClickColumn + 1))).isRedPlayer()) {
                                             isRedTurn = !isRedTurn;
-                                            redDeadPiece = new Square (Color.blue,PLAYER_RED, (firstClickRow - 1), (firstClickColumn + 1),false);
+                                            redDeadPiece = new Square (Color.black,PLAYER_NONE, (firstClickRow - 1), (firstClickColumn + 1),false);
                                             firstClick.setPlayer(PLAYER_NONE, firstClickRow, firstClickColumn);
                                             secondClick.setPlayer(PLAYER_BLUE, secondClickRow, secondClickColumn);
+                                            redDeadPiece.setPlayer(PLAYER_NONE,(firstClickRow - 1), (firstClickColumn + 1));
                                             redPiecesLeft--;
                                         System.out.println("firstClickRow ="+firstClickRow+"/n firstClickRow - 1 ="+(firstClickRow - 1));
                                         System.out.println("firstClickColumn ="+firstClickColumn+"/n firstClickColumn + 1 ="+(firstClickColumn + 1));
