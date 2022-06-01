@@ -80,7 +80,7 @@ public class GameBoard extends JPanel {
                              new Thread(()->{
                                         isSelected.setPlayer(WRONG_PLAYER_SELECTED, firstClickRow, firstClickColumn);
                                         try {
-                                            Thread.sleep(500);
+                                            Thread.sleep(200);
                                         } catch (InterruptedException e) {
                                             throw new RuntimeException(e);
                                        }
@@ -98,7 +98,7 @@ public class GameBoard extends JPanel {
                                 new Thread(()->{
                                     isSelected.setPlayer(WRONG_PLAYER_SELECTED, firstClickRow, firstClickColumn);
                                     try {
-                                        Thread.sleep(500);
+                                        Thread.sleep(200);
                                     } catch (InterruptedException e) {
                                         throw new RuntimeException(e);
                                     }
