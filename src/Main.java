@@ -12,7 +12,7 @@ public class Main extends JFrame {
     public Main () {
 //        Panel panel = new Panel();
 //        this.add(panel);
-//        this.setSize(50,50);
+//        this.setSize(200,200);
 //        this.setVisible(true);
         GameBoard gameBoard = new GameBoard(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.add(gameBoard);
