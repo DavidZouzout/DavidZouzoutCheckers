@@ -71,17 +71,17 @@ public class GameBoard extends JPanel {
                                 else isSelected.setPlayer(PLAYER_RED_SELECTED);
                             }
                             else if(firstClick.isEmptySquare() || !firstClick.isValidSquare()){
-                             new Thread(()->{
-                                        isSelected.setPlayer(WRONG_PLAYER_SELECTED);
-                                        try {
-                                            Thread.sleep(200);
-                                        } catch (InterruptedException e) {
-                                            throw new RuntimeException(e);
-                                       }
-                                        isSelected.setPlayer(PLAYER_NONE);
-                                        firstClick = null;
-                                        repaint();
-                                    }).start();
+                                new Thread(()->{
+                                    isSelected.setPlayer(WRONG_PLAYER_SELECTED);
+                                    try {
+                                        Thread.sleep(200);
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    isSelected.setPlayer(PLAYER_NONE);
+                                    firstClick = null;
+                                    repaint();
+                                }).start();
                             }
                         }
                         else {
@@ -109,41 +109,41 @@ public class GameBoard extends JPanel {
                         secondClickRow = finalRow;
                         secondClickColumn = finalColumn;
                         /* If user presses on twice on the same color/player. */
-                         if ((firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) && (secondClick.isBlueSelectedKing()
-                                 || secondClick.isBluePlayer() || secondClick.isRedSelectedKing() || secondClick.isRedPlayer())) {
+                        if ((firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) && (secondClick.isBlueSelectedKing()
+                                || secondClick.isBluePlayer() || secondClick.isRedSelectedKing() || secondClick.isRedPlayer())) {
                             if(firstClick.isBlueSelectedKing()) firstClick.setPlayer(PLAYER_BLUE_KING);
                             else if (firstClick.isRedSelectedKing()) firstClick.setPlayer(PLAYER_RED_KING);
-                             /* If user presses twice on the same color/player/king. */
-                         } else if((firstClick.isRedSelectedPlayer() && (secondClick.isRedPlayer() || secondClick.isRedSelectedPlayer())) || (firstClick.isBlueSelectedPlayer()
-                                 && (secondClick.isBluePlayer() || secondClick.isBlueSelectedPlayer()))){
-                             if (firstClick.isBlueSelectedPlayer()) firstClick.setPlayer(PLAYER_BLUE);
-                             else if (firstClick.isRedSelectedPlayer()) firstClick.setPlayer(PLAYER_RED);
-                         }
+                            /* If user presses twice on the same color/player/king. */
+                        } else if((firstClick.isRedSelectedPlayer() && (secondClick.isRedPlayer() || secondClick.isRedSelectedPlayer())) || (firstClick.isBlueSelectedPlayer()
+                                && (secondClick.isBluePlayer() || secondClick.isBlueSelectedPlayer()))){
+                            if (firstClick.isBlueSelectedPlayer()) firstClick.setPlayer(PLAYER_BLUE);
+                            else if (firstClick.isRedSelectedPlayer()) firstClick.setPlayer(PLAYER_RED);
+                        }
                     }
-                                /* If both user clicks are not empty. */
+                    /* If both user clicks are not empty. */
                     if (firstClick != null && secondClick != null && bluePiecesLeft > 0 && redPiecesLeft > 0) {
                         boolean isRedFirstClickValid = isRedTurn && (firstClick.isRedPlayer() || firstClick.isRedSelectedPlayer() || firstClick.isRedSelectedPlayer() || firstClick.isRedSelectedKing());
                         boolean isBlueFirstClickValid = !isRedTurn && (firstClick.isBluePlayer() || firstClick.isBlueSelectedPlayer() || firstClick.isRedSelectedPlayer() || firstClick.isBlueSelectedKing());
-                                      /* If both user clicks are valid. */
+                        /* If both user clicks are valid. */
                         if ((isRedFirstClickValid || isBlueFirstClickValid) && secondClick.isValidSquare() && secondClick.isEmptySquare()) {
-                                     /* If user moves player once */
+                            /* If user moves player once */
                             if (Math.abs(secondClickColumn - firstClickColumn) == 1 && Math.abs(secondClickRow - firstClickRow) == 1) {
-                                if (isRedTurn) {       /* Red's turn */
-                                    if (firstClick.isRedSelectedKing()) {
+                                if (isRedTurn) {       /* Downwards moving */
+                                    if (firstClick.isRedSelectedKing()) {                /* King moving downwards */
                                         isRedTurn = !isRedTurn;
                                         firstClick.setPlayer(PLAYER_NONE);
                                         secondClick.setPlayer(PLAYER_RED_KING);
-                                    } else if ((secondClickRow - firstClickRow) == 1) {
+                                    } else if ((secondClickRow - firstClickRow) == 1) { /* Player moving downwards */
                                         isRedTurn = !isRedTurn;
                                         firstClick.setPlayer(PLAYER_NONE);
                                         secondClick.setPlayer(PLAYER_RED);
                                     } else if ((secondClickRow - firstClickRow) == -1) firstClick.setPlayer(PLAYER_RED);
-                                } else {              /* Blue's turn */
-                                    if (firstClick.isBlueSelectedKing()) {
+                                } else {              /* Upwards moving */
+                                    if (firstClick.isBlueSelectedKing()) {               /* King moving upwards */
                                         isRedTurn = !isRedTurn;
                                         firstClick.setPlayer(PLAYER_NONE);
                                         secondClick.setPlayer(PLAYER_BLUE_KING);
-                                    } else if ((secondClickRow - firstClickRow) == -1) {
+                                    } else if ((secondClickRow - firstClickRow) == -1) {  /* Player moving upwards */
                                         isRedTurn = !isRedTurn;
                                         firstClick.setPlayer(PLAYER_NONE);
                                         secondClick.setPlayer(PLAYER_BLUE);
@@ -151,10 +151,10 @@ public class GameBoard extends JPanel {
                                 }
                                 /* If eating another player */
                             } else if (Math.abs(secondClickColumn - firstClickColumn) == 2 && Math.abs(secondClickRow - firstClickRow) == 2) {
-                                if (secondClickRow - firstClickRow == 2) {          /* Red turn */
-                                    if (secondClickColumn - firstClickColumn == 2) {            /* RED Eating right piece */
+                                if (secondClickRow - firstClickRow == 2) {          /* Player eating downwards */
+                                    if (secondClickColumn - firstClickColumn == 2) {   /* Player eating right piece */
                                         eatenPLayer = boardData.get((firstClickRow + 1)).get((firstClickColumn + 1));
-                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) {
+                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) { /* King eating the right piece */
                                             if (firstClick.isRedSelectedKing()) {
                                                 if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                     firstClick.setPlayer(PLAYER_NONE);
@@ -172,7 +172,7 @@ public class GameBoard extends JPanel {
                                                     redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
-                                        } else {
+                                        } else {                            /* RED player eating right piece */
                                             if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                 secondClick.setPlayer(PLAYER_RED);
                                                 firstClick.setPlayer(PLAYER_NONE);
@@ -181,9 +181,9 @@ public class GameBoard extends JPanel {
                                                 bluePiecesLeft--;
                                             } else firstClick.setPlayer(PLAYER_RED);
                                         }
-                                    } else if (secondClickColumn - firstClickColumn == -2) {    /* RED piece or King Eating left piece */
+                                    } else if (secondClickColumn - firstClickColumn == -2) {    /* Player eating the left piece */
                                         eatenPLayer = boardData.get((firstClickRow + 1)).get((firstClickColumn - 1));
-                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) {
+                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) { /* King eating the left piece */
                                             if (firstClick.isRedSelectedKing()) {
                                                 if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                     firstClick.setPlayer(PLAYER_NONE);
@@ -201,7 +201,7 @@ public class GameBoard extends JPanel {
                                                     redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
-                                        } else {
+                                        } else {                         /* RED player eating left piece */
                                             if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                 secondClick.setPlayer(PLAYER_RED);
                                                 firstClick.setPlayer(PLAYER_NONE);
@@ -211,10 +211,10 @@ public class GameBoard extends JPanel {
                                             } else firstClick.setPlayer(PLAYER_RED);
                                         }
                                     }
-                                } else {                           /* Blue turn */
+                                } else {                           /* Player eating upwards */
                                     if (secondClickColumn - firstClickColumn == 2) {  /* eating right piece */
                                         eatenPLayer = boardData.get((firstClickRow - 1)).get((firstClickColumn + 1));
-                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) {
+                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) { /* King eating the right piece */
                                             if (firstClick.isRedSelectedKing()) {
                                                 if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                     firstClick.setPlayer(PLAYER_NONE);
@@ -232,7 +232,7 @@ public class GameBoard extends JPanel {
                                                     redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
-                                        } else {
+                                        } else {                    /* Blue player eating right piece */
                                             if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
                                                 secondClick.setPlayer(PLAYER_BLUE);
                                                 firstClick.setPlayer(PLAYER_NONE);
@@ -241,9 +241,9 @@ public class GameBoard extends JPanel {
                                                 redPiecesLeft--;
                                             } else firstClick.setPlayer(PLAYER_BLUE);
                                         }
-                                    } else if (secondClickRow - firstClickRow == -2) { /* eating left piece */
+                                    } else if (secondClickRow - firstClickRow == -2) { /* Player eating left piece */
                                         eatenPLayer = boardData.get((firstClickRow - 1)).get((firstClickColumn - 1));
-                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) {
+                                        if (firstClick.isBlueSelectedKing() || firstClick.isRedSelectedKing()) {   /* King eating the left piece */
                                             if (firstClick.isRedSelectedKing()) {
                                                 if (eatenPLayer.isBluePlayer() || eatenPLayer.isBlueKing()) {
                                                     firstClick.setPlayer(PLAYER_NONE);
@@ -261,7 +261,7 @@ public class GameBoard extends JPanel {
                                                     redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
-                                        } else {
+                                        } else {                /* Blue player eating left piece */
                                             if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
                                                 secondClick.setPlayer(PLAYER_BLUE);
                                                 firstClick.setPlayer(PLAYER_NONE);
@@ -272,7 +272,7 @@ public class GameBoard extends JPanel {
                                         }
                                     }
                                 }
-                           }
+                            }
                         }
                         if (isBlueFirstClickValid && (!secondClick.isValidSquare() || firstClickRow == secondClickRow || firstClickColumn == secondClickColumn ||
                                 Math.abs(secondClickColumn - firstClickColumn) > 2 || Math.abs(secondClickRow - firstClickRow) > 2)) {
