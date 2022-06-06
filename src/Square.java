@@ -2,24 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Square extends JButton {
-    private Color color;
+    private final Color color;
     private int player;
     private boolean isKing;
-    private int x;
-    private int y;
-
     public Square (Color color, int player, boolean isKing) {
         this.color = color;
         this.player = player;
         this.isKing = isKing;
     }
-    public Square setPlayer(int player) {
+    public void setPlayer(int player) {
         this.player = player;
-        return this;
-    }
-    public Square setKing(boolean king) {
-        this.isKing = isKing;
-        return this;
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -114,10 +106,5 @@ public class Square extends JButton {
     public boolean isValidSquare(){
         return this.color == Color.BLACK;
     }
-    public boolean isKing() {
-        return isKing;
-    }
-
-
 
 }

@@ -288,44 +288,35 @@ public class GameBoard extends JPanel {
                         if (boardData.get(0).get(1).isBluePlayer()) {
                             becomeKing = boardData.get(0).get(1);
                             becomeKing.setPlayer(PLAYER_BLUE_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(0).get(3).isBluePlayer()) {
                             becomeKing = boardData.get(0).get(3);
                             becomeKing.setPlayer(PLAYER_BLUE_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(0).get(5).isBluePlayer()) {
                             becomeKing = boardData.get(0).get(5);
                             becomeKing.setPlayer(PLAYER_BLUE_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(0).get(7).isBluePlayer()) {
                             becomeKing = boardData.get(0).get(7);
                             becomeKing.setPlayer(PLAYER_BLUE_KING);
-                            becomeKing.setKing(true);
                         }
                         /* Red piece becoming king */
                         if (boardData.get(7).get(0).isRedPlayer()) {
                             becomeKing = boardData.get(7).get(0);
                             becomeKing.setPlayer(PLAYER_RED_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(7).get(2).isRedPlayer()) {
                             becomeKing = boardData.get(7).get(2);
                             becomeKing.setPlayer(PLAYER_RED_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(7).get(4).isRedPlayer()) {
                             becomeKing = boardData.get(7).get(4);
                             becomeKing.setPlayer(PLAYER_RED_KING);
-                            becomeKing.setKing(true);
                         }
                         if (boardData.get(7).get(6).isRedPlayer()) {
                             becomeKing = boardData.get(7).get(6);
-                            becomeKing.setPlayer(PLAYER_RED_KING);
-                            becomeKing.setKing(true);
-                        }
+                            becomeKing.setPlayer(PLAYER_RED_KING);}
                         firstClick = null;
                         secondClick = null;
                     }
