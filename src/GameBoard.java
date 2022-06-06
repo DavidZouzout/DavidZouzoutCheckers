@@ -4,37 +4,32 @@ import java.awt.*;
 import java.util.ArrayList;
 public class GameBoard extends JPanel {
 
-    public static final int BOARD_LENGTH = 8;
 
     private final static ArrayList<ArrayList<Square>> boardData = new ArrayList<>();
+    public static final int BOARD_LENGTH = 8;
     public static final int PLAYER_NONE = 0;
     public static final int PLAYER_BLUE = 1;
     public static final int PLAYER_RED = 2;
     public static final int PLAYER_RED_SELECTED = 4;
     public static final int PLAYER_BLUE_SELECTED = 5;
-    public static final int WRONG_PLAYER_SELECTED_RED_TURN = 6;
-    public static final int WRONG_PLAYER_SELECTED_BLUE_TURN = 7;
-    public static final int WRONG_PLAYER_SELECTED = 8;
-    public static final int PLAYER_RED_KING = 9;
-    public static final int PLAYER_BLUE_KING = 10;
-    public static final int PLAYER_RED_KING_SELECTED = 11;
-    public static final int PLAYER_BLUE_KING_SELECTED = 12;
-
+    public static final int WRONG_PLAYER_SELECTED = 6;
+    public static final int PLAYER_RED_KING = 7;
+    public static final int PLAYER_BLUE_KING = 9;
+    public static final int PLAYER_RED_KING_SELECTED = 10;
+    public static final int PLAYER_BLUE_KING_SELECTED = 11;
     int redPiecesLeft = 12;
     int bluePiecesLeft = 12;
     int firstClickRow;
     int firstClickColumn;
     int secondClickRow;
     int secondClickColumn;
-
     Square firstClick = null;
     Square secondClick = null;
     Square eatenPLayer = null;
     Square isSelected = null;
     Square becomeKing = null;
-
     boolean isRedTurn = false;
-    public GameBoard(int x, int y, int width, int height) {
+    public GameBoard() {
         this.setBackground(Color.BLUE);
         GridLayout gridLayout = new GridLayout(BOARD_LENGTH, BOARD_LENGTH);
         this.setLayout(gridLayout);
@@ -166,6 +161,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_RED_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    bluePiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_RED_KING);
                                             } else if (firstClick.isBlueSelectedKing()) {
                                                 if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
@@ -173,6 +169,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_BLUE_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
                                         } else {
@@ -180,8 +177,8 @@ public class GameBoard extends JPanel {
                                                 secondClick.setPlayer(PLAYER_RED);
                                                 firstClick.setPlayer(PLAYER_NONE);
                                                 eatenPLayer.setPlayer(PLAYER_NONE);
-                                                bluePiecesLeft--;
                                                 isRedTurn = !isRedTurn;
+                                                bluePiecesLeft--;
                                             } else firstClick.setPlayer(PLAYER_RED);
                                         }
                                     } else if (secondClickColumn - firstClickColumn == -2) {    /* RED piece or King Eating left piece */
@@ -193,6 +190,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_RED_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    bluePiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_RED_KING);
                                             } else if (firstClick.isBlueSelectedKing()) {
                                                 if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
@@ -200,6 +198,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_BLUE_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
                                         } else {
@@ -207,8 +206,8 @@ public class GameBoard extends JPanel {
                                                 secondClick.setPlayer(PLAYER_RED);
                                                 firstClick.setPlayer(PLAYER_NONE);
                                                 eatenPLayer.setPlayer(PLAYER_NONE);
-                                                bluePiecesLeft--;
                                                 isRedTurn = !isRedTurn;
+                                                bluePiecesLeft--;
                                             } else firstClick.setPlayer(PLAYER_RED);
                                         }
                                     }
@@ -222,6 +221,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_RED_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    bluePiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_RED_KING);
                                             } else if (firstClick.isBlueSelectedKing()) {
                                                 if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
@@ -229,6 +229,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_BLUE_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
                                         } else {
@@ -249,6 +250,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_RED_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    bluePiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_RED_KING);
                                             } else if (firstClick.isBlueSelectedKing()) {
                                                 if (eatenPLayer.isRedPlayer() || eatenPLayer.isRedKing()) {
@@ -256,6 +258,7 @@ public class GameBoard extends JPanel {
                                                     secondClick.setPlayer(PLAYER_BLUE_KING);
                                                     eatenPLayer.setPlayer(PLAYER_NONE);
                                                     isRedTurn = !isRedTurn;
+                                                    redPiecesLeft--;
                                                 } else firstClick.setPlayer(PLAYER_BLUE_KING);
                                             }
                                         } else {
@@ -327,13 +330,13 @@ public class GameBoard extends JPanel {
                         secondClick = null;
                     }
 
-                    if(redPiecesLeft < 1){
-                        this.setVisible(false);
-
+                    if(redPiecesLeft < 1) {
+                        System.out.println("🥳🥳 BLUE TEAM WIN'S 🥳🥳");
+                        System.exit(0);
                     }
                     else if (bluePiecesLeft < 1) {
-                        this.setVisible(false);
-                        getGraphics().drawString("Red TEAM WINS",0,0);
+                        System.out.println("🥳🥳 RED TEAM WIN'S 🥳🥳");
+                        System.exit(0);
                     }
                     repaint();
                 });

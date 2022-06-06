@@ -14,13 +14,14 @@ public class Main extends JFrame {
 //        this.add(panel);
 //        this.setSize(200,200);
 //        this.setVisible(true);
-        GameBoard gameBoard = new GameBoard(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        GameBoard gameBoard = new GameBoard();
         this.add(gameBoard);
         this.setResizable(false);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+
 
 
 

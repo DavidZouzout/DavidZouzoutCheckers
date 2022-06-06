@@ -78,18 +78,6 @@ public class Square extends JButton {
                 g.setColor(Color.GREEN);
                 g.fillOval(20, 20, this.getWidth() - 40, this.getHeight() - 40);
                 break;
-            case GameBoard.WRONG_PLAYER_SELECTED_RED_TURN:
-                g.setColor(Color.YELLOW);
-                g.drawOval(4,4, this.getWidth() - 8, this.getHeight() -8);
-                g.setColor(Color.BLUE);
-                g.fillOval(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-                break;
-            case GameBoard.WRONG_PLAYER_SELECTED_BLUE_TURN:
-                g.setColor(Color.YELLOW);
-                g.drawOval(4,4, this.getWidth() - 8, this.getHeight() -8);
-                g.setColor(Color.RED);
-                g.fillOval(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-                break;
             case GameBoard.WRONG_PLAYER_SELECTED:
                 g.setColor(Color.red);
                 g.fillRect(0,0,this.getWidth(),this.getHeight());
