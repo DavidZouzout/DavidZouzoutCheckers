@@ -50,10 +50,10 @@ public class GameBoard extends JPanel {
                 }
                 Square square;
                 if (black) {
-                    square = new Square(Color.BLACK, player, false);
+                    square = new Square(Color.BLACK, player);
                 }
                 else {
-                    square = new Square(Color.WHITE, player,false);
+                    square = new Square(Color.WHITE, player);
                 }
                 int finalRow = row;
                 int finalColumn = column;
@@ -337,7 +337,7 @@ public class GameBoard extends JPanel {
                 black = !black;
                 setPlayer = !setPlayer;
             }
-            this.boardData.add(currentRow);
+            boardData.add(currentRow);
             black = !black;
             setPlayer = !setPlayer;
         }

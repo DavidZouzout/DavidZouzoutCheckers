@@ -4,11 +4,9 @@ import java.awt.*;
 public class Square extends JButton {
     private final Color color;
     private int player;
-    private boolean isKing;
-    public Square (Color color, int player, boolean isKing) {
+    public Square (Color color, int player) {
         this.color = color;
         this.player = player;
-        this.isKing = isKing;
     }
     public void setPlayer(int player) {
         this.player = player;
